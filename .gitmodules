@@ -1,0 +1,12 @@
+[submodule "ROS/catkin_ws/src/rosserial"]
+	path = ROS/catkin_ws/src/rosserial
+	url = https://github.com/ros-drivers/rosserial.git
+[submodule "ROS/catkin_ws/src/interbotix_ros_core"]
+	path = ROS/catkin_ws/src/interbotix_ros_core
+	url = https://github.com/yimlaisum2014/interbotix_ros_core.git
+[submodule "ROS/catkin_ws/src/interbotix_ros_manipulators"]
+	path = ROS/catkin_ws/src/interbotix_ros_manipulators
+	url = https://github.com/yimlaisum2014/interbotix_ros_manipulators.git
+[submodule "ROS/catkin_ws/src/interbotix_ros_toolboxes"]
+	path = ROS/catkin_ws/src/interbotix_ros_toolboxes
+	url = https://github.com/yimlaisum2014/interbotix_ros_toolboxes.git
