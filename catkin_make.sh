@@ -8,9 +8,9 @@ rm ./ROS/catkin_ws/src/interbotix_ros_manipulators/interbotix_ros_xsarms/CATKIN_
 rm ./ROS/catkin_ws/src/interbotix_ros_toolboxes/interbotix_xs_toolbox/CATKIN_IGNORE
 rm ./ROS/catkin_ws/src/interbotix_ros_toolboxes/interbotix_common_toolbox/interbotix_moveit_interface/CATKIN_IGNORE
 
-echo "Setup udev..."
-cp ./ROS/catkin_ws/src/interbotix_ros_core/interbotix_ros_xseries/interbotix_xs_sdk/99-interbotix-udev.rules /etc/udev/rules.d/
-udevadm control --reload-rules &&  udevadm trigger
+# echo "Setup udev..."
+# cp ./ROS/catkin_ws/src/interbotix_ros_core/interbotix_ros_xseries/interbotix_xs_sdk/99-interbotix-udev.rules /etc/udev/rules.d/
+# udevadm control --reload-rules &&  udevadm trigger
 
 # cd ~/GMU_NCTU_DualArm_Medical
 # rosdep install --from-paths src --ignore-src -r -y

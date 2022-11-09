@@ -3,7 +3,6 @@
 import rospy
 from std_srvs.srv import Trigger, TriggerResponse
 from interbotix_xs_modules.arm import InterbotixManipulatorXS
-from dualarm_bringup.srv import *
 from sensor_msgs.msg import JointState
 from std_msgs.msg import Bool
 
@@ -17,7 +16,7 @@ class shooting():
 
         # Service
         rospy.Service("/{0}/go_sleep".format(name), Trigger, self.vx300s_sleep)
-        rospy.Service("/{0}/go_sleep".format(name), Trigger, self.vx300s_shoot)
+        rospy.Service("/{0}/go_shoot".format(name), Trigger, self.vx300s_shoot)
 
         # Subscriber
 
@@ -37,7 +36,7 @@ class shooting():
 
     def vx300s_shoot(self, req):
         res = TriggerResponse()
-        self.arm.set_ee_pose_components(joint_name="sholder",position=0.2)
+        self.arm.set_single_joint_position(joint_name="shoulder",position=-1.6)
         # self.arm.set_joint_positions([-0.04908738657832146, -0.5660389065742493, 0.5460971593856812, 0.05522330850362778, -0.21629129350185394, -0.012271846644580364])
         res.success = True
         
@@ -63,7 +62,7 @@ if __name__=='__main__':
 
     rospy.init_node("arm_control_node", anonymous=False)
 
-    robot_name = rospy.get_param("shooting_arm")
+    robot_name = rospy.get_param("shoot_arm")
     shoot = shooting(robot_name)
 
     
