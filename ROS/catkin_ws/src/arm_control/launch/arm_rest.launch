@@ -1,0 +1,10 @@
+  <launch>
+
+    <node
+        name="rest_arm"
+        pkg="arm_control"
+        type="rest_arm.py"
+        output="screen">
+    </node>
+
+  </launch>

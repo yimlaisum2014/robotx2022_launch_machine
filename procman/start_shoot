@@ -1,0 +1,28 @@
+cmd "01_roscore" {
+        exec = "roscore";
+        host = "localhost";
+}
+
+cmd "02_rosserials" {
+      exec = "roslaunch shoot_control start_rosserial.launch";
+      host = "localhost";
+}
+
+cmd "03_arm" {
+      exec = "roslaunch arm_control shoot_arm.launch";
+      host = "localhost";
+}
+
+cmd "04_arm_service" {
+      exec = "roslaunch arm_control arm_service.launch";
+      host = "localhost";
+}
+
+cmd "05_arm_rest"{
+    exec = "roslaunch arm_control arm_rest.launch";
+    host = "localhost";
+}
+
+script "start_shoot" {
+
+}

@@ -1,0 +1,11 @@
+  <launch>
+
+
+    <node
+        name="arm_control"
+        pkg="arm_control"
+        type="arm_control.py"
+        output="screen">
+    </node>
+
+  </launch>
