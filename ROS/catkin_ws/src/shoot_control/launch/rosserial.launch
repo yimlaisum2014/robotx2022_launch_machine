@@ -1,0 +1,16 @@
+  <launch>
+    <!-- <arg name="robot_name"                        default=""/> -->
+    <arg name="arduino_port"                        default="/dev/ttyUSB0"/>
+    <arg name="arduino_baud"                        default="57600"/>
+
+
+  <node
+    name="serial_node"
+    pkg="rosserial_arduino"
+    type="serial_node.py"
+    output="screen">
+    <param name="port"                   value="$(arg arduino_port)"/>
+    <param name="baud"                   value="$(arg arduino_baud)"/>
+  </node>
+
+  </launch>

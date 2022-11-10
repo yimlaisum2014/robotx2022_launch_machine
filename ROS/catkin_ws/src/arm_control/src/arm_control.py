@@ -17,12 +17,12 @@ class shooting():
         # Service
         rospy.Service("/{0}/go_sleep".format(name), Trigger, self.vx300s_sleep)
         rospy.Service("/{0}/go_shoot".format(name), Trigger, self.vx300s_shoot)
+        rospy.Service("/{0}/go_scan".format(name), Trigger, self.vx300s_scan)
+        rospy.Service("/{0}/go_arm_sleep".format(name), Trigger, self.vx300s_down_arm)
 
-        # Subscriber
 
         # vx300s setup
         robot = InterbotixManipulatorXS(robot_model="vx300s", group_name="arm", gripper_name="gripper", robot_name=name, moving_time=1.5, accel_time=0.3, gripper_pressure=0.75, init_node=False)
-
         self.arm = robot.arm
         self.gripper = robot.gripper
 
@@ -37,11 +37,27 @@ class shooting():
     def vx300s_shoot(self, req):
         res = TriggerResponse()
         self.arm.set_single_joint_position(joint_name="shoulder",position=-1.6)
+        self.arm.set_single_joint_position(joint_name="elbow",position=1.5)
         # self.arm.set_joint_positions([-0.04908738657832146, -0.5660389065742493, 0.5460971593856812, 0.05522330850362778, -0.21629129350185394, -0.012271846644580364])
         res.success = True
         
         return res
 
+    def vx300s_scan(self, req):
+        res = TriggerResponse()
+        self.arm.set_single_joint_position(joint_name="shoulder",position=-1.6)
+        res.success = True
+        
+        return res
+
+    def vx300s_down_arm(self, req):
+        res = TriggerResponse()
+        self.arm.set_single_joint_position(joint_name="shoulder",position=-1.87)
+        self.arm.set_single_joint_position(joint_name="elbow",position=1.55)
+        self.arm.set_single_joint_position(joint_name="wrist_angle",position=1.4)
+        res.success = True
+        
+        return res
 
     def vx300s_sleep(self, req):
 
