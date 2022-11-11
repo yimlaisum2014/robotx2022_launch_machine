@@ -26,7 +26,7 @@ class shooting():
         self.arm = robot.arm
         self.gripper = robot.gripper
 
-        self.init()
+        # self.init()
 
     def init(self):
 
@@ -52,8 +52,8 @@ class shooting():
 
     def vx300s_down_arm(self, req):
         res = TriggerResponse()
-        self.arm.set_single_joint_position(joint_name="shoulder",position=-1.87)
-        self.arm.set_single_joint_position(joint_name="elbow",position=1.55)
+        self.arm.set_single_joint_position(joint_name="shoulder",position=-1.8729)
+        self.arm.set_single_joint_position(joint_name="elbow",position=1.5582)
         self.arm.set_single_joint_position(joint_name="wrist_angle",position=1.4)
         res.success = True
         
