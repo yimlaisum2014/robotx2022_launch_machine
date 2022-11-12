@@ -10,19 +10,22 @@ import tf
 import tf.transformations as tfm
 
 class shooting():
-    def __init__(self, name):
+    def __init__(self, robot_name,single_joint_name,single_joint_position):
 
-        self.name = name
+        self.robot_name = robot_name
+        self.single_joint_name = single_joint_name
+        self.single_joint_position = single_joint_position
 
         # Service
-        rospy.Service("/{0}/go_sleep".format(name), Trigger, self.vx300s_sleep)
-        rospy.Service("/{0}/go_shoot".format(name), Trigger, self.vx300s_shoot)
-        rospy.Service("/{0}/go_scan".format(name), Trigger, self.vx300s_scan)
-        rospy.Service("/{0}/go_arm_sleep".format(name), Trigger, self.vx300s_down_arm)
-
+        rospy.Service("/{0}/go_sleep".format(robot_name), Trigger, self.vx300s_sleep)
+        rospy.Service("/{0}/go_shoot".format(robot_name), Trigger, self.vx300s_shoot)
+        rospy.Service("/{0}/go_scan".format(robot_name), Trigger, self.vx300s_scan)
+        rospy.Service("/{0}/go_arm_sleep".format(robot_name), Trigger, self.vx300s_down_arm)
+        rospy.Service("/{0}/go_tune".format(robot_name), Trigger, self.vx300s_single_joint)
+        
 
         # vx300s setup
-        robot = InterbotixManipulatorXS(robot_model="vx300s", group_name="arm", gripper_name="gripper", robot_name=name, moving_time=1.5, accel_time=0.3, gripper_pressure=0.75, init_node=False)
+        robot = InterbotixManipulatorXS(robot_model="vx300s", group_name="arm", gripper_name="gripper", robot_name=robot_name, moving_time=1.5, accel_time=0.3, gripper_pressure=0.75, init_node=False)
         self.arm = robot.arm
         self.gripper = robot.gripper
 
@@ -72,6 +75,13 @@ class shooting():
         
         return res
 
+    def vx300s_single_joint(self, req):
+        res = TriggerResponse()
+        self.arm.set_single_joint_position(joint_name=self.single_joint_name, position=self.single_joint_position)
+        res.success = True
+        
+        return res
+
 
 
 if __name__=='__main__':
@@ -79,7 +89,10 @@ if __name__=='__main__':
     rospy.init_node("arm_control_node", anonymous=False)
 
     robot_name = rospy.get_param("shoot_arm")
-    shoot = shooting(robot_name)
+    single_joint_name = rospy.get_param("single_joint_name")
+    single_joint_position = float(rospy.get_param("single_joint_position"))
+
+    shoot = shooting(robot_name,single_joint_name,single_joint_position)
 
     
     rospy.spin()

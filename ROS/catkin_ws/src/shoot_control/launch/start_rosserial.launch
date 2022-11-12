@@ -2,7 +2,7 @@
     <!-- <arg name="robot_name"                        default=""/> -->
     <arg name="arduino_port"                        default="/dev/ttyUSB0"/>
     <arg name="arduino_baud"                        default="57600"/>
-
+    <arg name ="arduino_auto_reset_timeout"         default="0"/>
 
   <node
     name="serial_node"
@@ -11,6 +11,7 @@
     output="screen">
     <param name="port"                   value="$(arg arduino_port)"/>
     <param name="baud"                   value="$(arg arduino_baud)"/>
+    <param name="auto_reset_timeout"      value="$( arg arduino_auto_reset_timeout)"/>
   </node>
 
   </launch>

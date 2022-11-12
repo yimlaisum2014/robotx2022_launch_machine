@@ -2,8 +2,9 @@
 <launch>
 
     <!-- parameter -->
-    <arg name="shooting_arm"          default="shooting_arm" />
+    <arg name="shooting_arm"            default="shooting_arm" />
     <param name="/shoot_arm"           value="$(arg shooting_arm)" />
+
 
     <!-- connect left vx300s -->
     <include file="$(find arm_control)/launch/arm_control_real.launch">

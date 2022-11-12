@@ -8,12 +8,12 @@ ros::NodeHandle  nh;
 int shoot = 0;
 
 // bursless-motor parms
-byte servoPin_R = 6;
-byte servoPin_L = 3;
-Servo servo_r;
-Servo servo_l;
-const int rightSp = 65;
-const int leftSp = 95;
+//byte servoPin_R = 6;
+//byte servoPin_L = 3;
+//Servo servo_r;
+//Servo servo_l;
+//const int rightSp = 65;
+//const int leftSp = 95;
 
 //stepper
 int stepsPerRevolution = 200;
@@ -47,14 +47,15 @@ void loop()
     shoot_pub.data = 1;
 //    servo_r.write(rightSp);
 //    servo_l.write(leftSp);
-//    delay(1000);
-//    myStepper.setSpeed(30);
-    myStepper.step(10);
+    delay(1000);
+    myStepper.setSpeed(30);
+    myStepper.step(8);
+    delay(500);
+    myStepper.step(8);
     }else{
       shoot_pub.data= 0;
 //      servo_r.write(10);
 //      servo_l.write(10);
-//      myStepper.setSpeed(0);
 //      myStepper.step(0);
       }
       

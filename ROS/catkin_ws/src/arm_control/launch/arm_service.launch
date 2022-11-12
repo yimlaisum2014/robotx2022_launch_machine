@@ -1,10 +1,17 @@
+  
+  
   <launch>
 
+    <!-- parameter -->
+    <arg name="shooting_joint_name"     default="shoulder"/>
+    <arg name="shooting_joint_position" default="-1.8729"/>
+    <param name="/single_joint_name"           value="$(arg shooting_joint_name)" />
+    <param name="/single_joint_position"           value="$(arg shooting_joint_position)" />
 
     <node
-        name="arm_control"
+        name="arm_service"
         pkg="arm_control"
-        type="arm_control.py"
+        type="arm_service.py"
         output="screen">
     </node>
 
