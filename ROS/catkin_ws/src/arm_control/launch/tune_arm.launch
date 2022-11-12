@@ -1,0 +1,18 @@
+  
+  
+  <launch>
+    <arg name="set_joint_name"            default="" />
+    <arg name="set_joint_position"     default=""/>
+    <param name="/set_joint_name"           value="$(arg set_joint_name)" />
+    <param name="/set_joint_position"       value="$(arg set_joint_position)" />
+
+
+    <node
+        name="arm_tune_clinet"
+        pkg="arm_control"
+        type="arm_tune_clinet.py"
+        output="screen">
+
+    </node>
+
+  </launch>

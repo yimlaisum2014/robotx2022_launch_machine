@@ -10,18 +10,15 @@ import tf
 import tf.transformations as tfm
 
 class shooting():
-    def __init__(self, robot_name,single_joint_name,single_joint_position):
+    def __init__(self, robot_name):
 
         self.robot_name = robot_name
-        self.single_joint_name = single_joint_name
-        self.single_joint_position = single_joint_position
 
         # Service
         rospy.Service("/{0}/go_sleep".format(robot_name), Trigger, self.vx300s_sleep)
         rospy.Service("/{0}/go_shoot".format(robot_name), Trigger, self.vx300s_shoot)
         rospy.Service("/{0}/go_scan".format(robot_name), Trigger, self.vx300s_scan)
         rospy.Service("/{0}/go_arm_sleep".format(robot_name), Trigger, self.vx300s_down_arm)
-        rospy.Service("/{0}/go_tune".format(robot_name), Trigger, self.vx300s_single_joint)
         
 
         # vx300s setup
@@ -30,6 +27,12 @@ class shooting():
         self.gripper = robot.gripper
 
         # self.init()
+    # initital posistion
+    # [waist, shoulder, elbow, forearm_roll, wrist_angle, wrist_rotate, gripper, left_finger,  right_finger]
+    # [0.0015339808305725455, -1.9067381620407104, 1.6797089576721191, -0.0076699042692780495, 1.4879614114761353, -0.012271846644580364, 1.5385828018188477, 0.05798161029815674, -0.05798161029815674]
+
+    # sleep mode
+    # [0.0, -1.8806605339050293, 1.555456519126892, -0.0015339808305725455, 0.8068739175796509, -0.0015339808305725455, 1.5385828018188477, 0.05798161029815674, -0.05798161029815674]
 
     def init(self):
 
@@ -39,10 +42,10 @@ class shooting():
 
     def vx300s_shoot(self, req):
         res = TriggerResponse()
-        self.arm.set_single_joint_position(joint_name="shoulder",position=-1.6)
+        # self.arm.set_single_joint_position(joint_name="shoulder",position=-1.6)
         self.arm.set_single_joint_position(joint_name="elbow",position=1.5)
-        # self.arm.set_joint_positions([-0.04908738657832146, -0.5660389065742493, 0.5460971593856812, 0.05522330850362778, -0.21629129350185394, -0.012271846644580364])
         res.success = True
+        res.message = "reach shooting position"
         
         return res
 
@@ -50,15 +53,15 @@ class shooting():
         res = TriggerResponse()
         self.arm.set_single_joint_position(joint_name="shoulder",position=-1.6)
         res.success = True
+        res.message = "reach scanning position"
         
         return res
 
     def vx300s_down_arm(self, req):
         res = TriggerResponse()
-        self.arm.set_single_joint_position(joint_name="shoulder",position=-1.8729)
-        self.arm.set_single_joint_position(joint_name="elbow",position=1.5582)
-        self.arm.set_single_joint_position(joint_name="wrist_angle",position=1.4)
+        self.arm.set_single_joint_position(joint_name="wrist_angle",position=1.45)
         res.success = True
+        res.success = "reach arm rest position"
         
         return res
 
@@ -69,30 +72,19 @@ class shooting():
         try:
             self.arm.go_to_sleep_pose()
             res.success = True
+            res.message = "reach default sleep position"
         except (rospy.ServiceException, rospy.ROSException) as e:
             res.success = False
             print("Service call failed: %s"%e)
         
         return res
 
-    def vx300s_single_joint(self, req):
-        res = TriggerResponse()
-        self.arm.set_single_joint_position(joint_name=self.single_joint_name, position=self.single_joint_position)
-        res.success = True
-        
-        return res
-
-
-
 if __name__=='__main__':
 
     rospy.init_node("arm_control_node", anonymous=False)
 
     robot_name = rospy.get_param("shoot_arm")
-    single_joint_name = rospy.get_param("single_joint_name")
-    single_joint_position = float(rospy.get_param("single_joint_position"))
-
-    shoot = shooting(robot_name,single_joint_name,single_joint_position)
+    shoot = shooting(robot_name)
 
     
     rospy.spin()
