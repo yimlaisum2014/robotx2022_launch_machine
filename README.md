@@ -45,7 +45,17 @@ Here is 5 launch
     - go_arm_sleep : short-version Vx300s (adjusting wrist-angle)
 - arm_rest : When the all tasks are finish, run this script allow the robot to rest
 
-### Backup
+
+## Other feature
+### 1. single control commend
+you could use this command to control single joint of the robot arm.
+elbow : (up) 1.3 ~ 1.6 (down)
+shoulder (up) -1.6 ~ -1.87 (down)
+```
+roslaunch arm_control tune_arm.launch set_joint_name:=shoulder set_joint_position:=-1.87
+```
+
+## Backup
 When procman didn't work
 
 key launch file as following
