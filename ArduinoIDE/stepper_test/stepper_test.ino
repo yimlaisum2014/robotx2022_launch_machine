@@ -36,7 +36,7 @@ void setup()
   nh.subscribe(sub);
   nh.advertise(pub);
   
-  myStepper.setSpeed(30);
+//  myStepper.setSpeed(30);
 //  servo_r.attach(servoPin_R);
 //  servo_l.attach(servoPin_L);
 }
@@ -47,21 +47,23 @@ void loop()
     shoot_pub.data = 1;
 //    servo_r.write(rightSp);
 //    servo_l.write(leftSp);
+    myStepper.setSpeed(20);
     delay(1000);
-    myStepper.setSpeed(30);
-    myStepper.step(8);
+    myStepper.step(30);
+    pub.publish(&shoot_pub);
     delay(500);
-    myStepper.step(8);
+//    myStepper.step(8);
     }else{
       shoot_pub.data= 0;
 //      servo_r.write(10);
 //      servo_l.write(10);
 //      myStepper.step(0);
+      pub.publish(&shoot_pub);
       }
       
   shoot = 0;
-  pub.publish(&shoot_pub);
-  delay(1000);
+  
+  delay(2000);
   nh.spinOnce();
 
 }

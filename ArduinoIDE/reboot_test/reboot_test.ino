@@ -6,7 +6,7 @@
 ros::NodeHandle  nh;
 
 int shoot = 0;
-int reset = 0;
+int reset_state = 0;
 
 // bursless-motor parms
 byte servoPin_R = 6;
@@ -20,12 +20,14 @@ const int leftSp = 95;
 int stepsPerRevolution = 200;
 Stepper myStepper(stepsPerRevolution, 8, 9, 10, 11);
 
+void(* resetFunc) (void) = 0;//declare reset function at address 0
+
 void cbshoot(const std_msgs::Byte& msg){
   shoot = msg.data;
 }
 
-void cbshoot(const std_msgs::Byte& msg){
-  reset = msg.data;
+void cbreset(const std_msgs::Byte& msg){
+  reset_state = msg.data;
 }
 
 ros::Subscriber<std_msgs::Byte> sub("/shoot_cmd",cbshoot);
@@ -40,28 +42,29 @@ void setup()
   
   nh.initNode();
   nh.subscribe(sub);
+  nh.subscribe(reset);
   nh.advertise(pub);
   
   myStepper.setSpeed(30);
-  servo_r.attach(servoPin_R);
-  servo_l.attach(servoPin_L);
+//  servo_r.attach(servoPin_R);
+//  servo_l.attach(servoPin_L);
 }
 
 void loop()
 {
   if(shoot == 1){
     shoot_pub.data = 1;
-    servo_r.write(rightSp);
-    servo_l.write(leftSp);
+//    servo_r.write(rightSp);
+//    servo_l.write(leftSp);
     delay(1000);
     myStepper.setSpeed(30);
-    myStepper.step(8);
+    myStepper.step(10);
     delay(500);
-    myStepper.step(8);
+    myStepper.step(5);
     }else{
       shoot_pub.data= 0;
-      servo_r.write(10);
-      servo_l.write(10);
+//      servo_r.write(10);
+//      servo_l.write(10);
       myStepper.step(0);
       }
       
@@ -70,8 +73,8 @@ void loop()
   delay(1000);
   nh.spinOnce();
 
-  if (reset == 1 ){
+  if (reset_state == 1 ){
     resetFunc();
   }
-
+  reset_state = 0;
 }
