@@ -1,39 +1,38 @@
-cmd "01_roscore" {
+cmd "1_roscore" {
         exec = "roscore";
         host = "localhost";
 }
 
-cmd "02_rosserials" {
+cmd "2_rosserials" {
       exec = "roslaunch shoot_control start_rosserial.launch";
       host = "localhost";
 }
 
-group "03_start-motor"{
-      cmd "01_arm" {
+group "3_arm_control" {
+      cmd "01_start_arm" {
             exec = "roslaunch arm_control shoot_arm.launch";
             host = "localhost";
       }
-      cmd "02_shootor-motor" {
-            exec = "roslaunch shoot_control start_motor.launch";
-            host = "localhost";
-      }
-}
-
-group "04_arm-control"{
-      cmd "01_arm_service" {
+      cmd "02_arm_service" {
             exec = "roslaunch arm_control arm_service.launch";
             host = "localhost";
       }
 
-      cmd "02_arm_rest"{
+      cmd "03_arm_rest"{
       exec = "roslaunch arm_control arm_rest.launch";
       host = "localhost";
       }
 }
 
-cmd "05_shooter-control"{
+group "4_shooter_control"{
+      cmd "01_start-shooter-motor" {
+            exec = "roslaunch shoot_control start_motor.launch";
+            host = "localhost";
+      }
+      cmd "02_shooter-control"{
       exec = "roslaunch shoot_control start_shoot.launch";
       host = "localhost";
+      }
 }
 
 
