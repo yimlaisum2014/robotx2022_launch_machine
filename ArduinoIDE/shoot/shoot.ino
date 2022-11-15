@@ -17,8 +17,8 @@ const int rightSp = 65;
 const int leftSp = 95;
 
 //stepper
-int stepsPerRevolution = 200;
-Stepper myStepper(stepsPerRevolution, 8, 9, 10, 11);
+//int stepsPerRevolution = 200;
+//Stepper myStepper(stepsPerRevolution, 8, 9, 10, 11);
 
 void(* resetFunc) (void) = 0;//declare reset function at address 0
 
@@ -45,7 +45,7 @@ void setup()
   nh.subscribe(reset);
   nh.advertise(pub);
   
-  myStepper.setSpeed(30);
+//  myStepper.setSpeed(60);
   servo_r.attach(servoPin_R);
   servo_l.attach(servoPin_L);
 }
@@ -53,32 +53,31 @@ void setup()
 void loop()
 {
 
-  if (reset_state == 1 ){
-    resetFunc();
-  }
-  reset_state = 0;
+//  if (reset_state == 1 ){
+//    resetFunc();
+//  }
+//  reset_state = 0;
   
   if(shoot == 1){
     shoot_pub.data = 1;
     servo_r.write(rightSp);
     servo_l.write(leftSp);
     delay(1000);
-    myStepper.step(20);
-    delay(500);
-    pub.publish(&shoot_pub);
+//    for (int i = 0 ; i <= 10; i++){
+//          myStepper.step(1);
+//          delay(500);
+//        }
+//    myStepper.step(8);  
     }else{
       shoot_pub.data= 0;
       servo_r.write(10);
       servo_l.write(10);
-      myStepper.step(0);
-      pub.publish(&shoot_pub);
       }
       
+  pub.publish(&shoot_pub);
   shoot = 0;
-  reset_state = 0;
-  delay(1000);
+  delay(500);
   nh.spinOnce();
-
 
 
 }
