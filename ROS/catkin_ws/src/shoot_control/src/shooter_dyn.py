@@ -15,9 +15,10 @@ class shotPub():
         self.motor_id = 10
 
         self.motor_home_position = 0
-        self.motor_step1 = 1500
-        self.motor_step2 = 3000
-        self.motor_step3 = 5000
+        self.motor_step1 = 1600
+        self.motor_step2 = 2800
+        self.motor_step3 = 4000
+        self.motor_step4 = 4800
 
         self.inital()
 
@@ -38,6 +39,7 @@ class shotPub():
         shoot_step1 = SetPosition()
         shoot_step2 = SetPosition()
         shoot_step3 = SetPosition()
+        shoot_step4 = SetPosition()
 
 
         if (shoot_num == 1):
@@ -58,6 +60,12 @@ class shotPub():
             shoot_step3.position = self.motor_step3
             self.pub_shoot.publish(shoot_step3)
             print("position 3")
+
+        elif (shoot_num == 4):
+            shoot_step4.id = self.motor_id 
+            shoot_step4.position = self.motor_step4
+            self.pub_shoot.publish(shoot_step4)
+            print("position 4")
 
         elif (shoot_num == 0):
             shoot_step0.id = self.motor_id
