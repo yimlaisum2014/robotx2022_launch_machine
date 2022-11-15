@@ -1,0 +1,10 @@
+<launch>
+
+  <node
+    name="shooter_dyn"
+    pkg="shoot_control"
+    type="shooter_dyn.py"
+    output="screen">
+  </node>
+
+</launch>
